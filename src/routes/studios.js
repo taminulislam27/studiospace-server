@@ -16,9 +16,6 @@ const SORTS = {
 
 const BAD_ID = { message: "That studio link is not valid." };
 
-// ---------- Public reads ----------
-
-// List studios. Query: category, q (title/location search), sort, limit (max 60)
 router.get(
   "/studios",
   route(async (req, res) => {
@@ -55,7 +52,6 @@ router.get(
   })
 );
 
-// Confirmed upcoming slots, so the booking form can show what is already taken
 router.get(
   "/studios/:id/booked",
   route(async (req, res) => {
@@ -88,9 +84,6 @@ router.get(
   })
 );
 
-// ---------- Protected by the JWT cookie ----------
-
-// Studios owned by the signed-in user
 router.get(
   "/my-studios",
   verifyJWT,
@@ -105,7 +98,6 @@ router.get(
   })
 );
 
-// Create. The owner always comes from the verified token, never from the request body.
 router.post(
   "/studios",
   verifyJWT,
@@ -129,7 +121,6 @@ router.post(
   })
 );
 
-// Update (owner only)
 router.put(
   "/studios/:id",
   verifyJWT,
@@ -154,7 +145,6 @@ router.put(
   })
 );
 
-// Delete (owner only). Open bookings for the studio are cancelled, its reviews removed.
 router.delete(
   "/studios/:id",
   verifyJWT,
@@ -186,7 +176,6 @@ router.delete(
   })
 );
 
-// Add a review (one per user per studio, not on your own studio)
 router.post(
   "/studios/:id/reviews",
   verifyJWT,
@@ -219,7 +208,6 @@ router.post(
     };
     const result = await reviews.insertOne(review);
 
-    // Keep the studio's average rating in step with its reviews
     const [agg] = await reviews
       .aggregate([
         { $match: { studioId } },

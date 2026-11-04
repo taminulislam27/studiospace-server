@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", (req, res) => res.send("StudioSpace API running"));
 
-// Quick check that the database connection works
 router.get("/health", async (req, res) => {
   try {
     const db = await getDb();
@@ -18,10 +17,8 @@ router.get("/health", async (req, res) => {
   }
 });
 
-// Returns the user stored in the JWT cookie (handy for testing Challenge 1)
 router.get("/me", verifyJWT, (req, res) => res.json({ user: req.user }));
 
-// Footer newsletter sign-up (one row per email address)
 router.post(
   "/newsletter",
   route(async (req, res) => {
