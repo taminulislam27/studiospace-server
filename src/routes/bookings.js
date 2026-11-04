@@ -7,8 +7,6 @@ const router = express.Router();
 
 const BAD_ID = { message: "That booking link is not valid." };
 
-// Challenge 2: finds a Confirmed booking for the studio that collides with the
-// requested range. Two ranges collide when start < otherEnd AND end > otherStart.
 function findConfirmedConflict(bookings, studioId, startAt, endAt, excludeId) {
   const query = {
     studioId,
@@ -25,7 +23,6 @@ const conflictBody = (conflict, message) => ({
   conflict: { startAt: conflict.startAt, endAt: conflict.endAt },
 });
 
-// Create a booking (starts as "Pending")
 router.post(
   "/bookings",
   verifyJWT,
@@ -95,7 +92,6 @@ router.post(
   })
 );
 
-// The signed-in user's own reservations
 router.get(
   "/my-bookings",
   verifyJWT,
@@ -110,7 +106,6 @@ router.get(
   })
 );
 
-// Reservations made on studios the signed-in user hosts
 router.get(
   "/host-bookings",
   verifyJWT,
@@ -125,7 +120,6 @@ router.get(
   })
 );
 
-// Guest cancels their own Pending booking
 router.patch(
   "/bookings/:id/cancel",
   verifyJWT,
@@ -153,7 +147,6 @@ router.patch(
   })
 );
 
-// Host confirms or declines a Pending booking
 router.patch(
   "/bookings/:id/status",
   verifyJWT,
