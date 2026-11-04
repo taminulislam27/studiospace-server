@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-// Challenge 1: verifies the HTTPOnly JWT cookie. Any request without a valid
-// token is rejected with 401 Unauthorized before it can touch the database.
 function verifyJWT(req, res, next) {
   const token = req.cookies && req.cookies.token;
   if (!token) return res.status(401).json({ message: "Unauthorized" });
@@ -13,7 +11,6 @@ function verifyJWT(req, res, next) {
   }
 }
 
-// Wraps async route handlers so a thrown error becomes a clean JSON 500.
 const route = (handler) => (req, res, next) =>
   Promise.resolve(handler(req, res, next)).catch((err) => {
     console.error(err);

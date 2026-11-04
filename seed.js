@@ -1,10 +1,4 @@
-// Inserts 12 sample studio listings so Home and Explore are not empty.
-//
-//   npm run seed
-//   npm run seed -- --owner you@example.com --name "Your Name"
-//
-// With --owner the listings appear under My Studio Listings for that account.
-// Running it again replaces the earlier sample listings (they carry a seedId).
+
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
@@ -16,7 +10,6 @@ function arg(name, fallback) {
 const ownerEmail = arg("owner", "host@studiospace.example").toLowerCase();
 const ownerName = arg("name", "StudioSpace Demo Host");
 
-// Cover images are original illustrations that ship with the client (public/studios).
 const art = (slug, cover) => ({
   image: `/studios/${slug}-${cover}.svg`,
   gallery: [1, 2, 3].filter((n) => n !== cover).map((n) => `/studios/${slug}-${n}.svg`),

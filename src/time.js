@@ -6,8 +6,6 @@ const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const MIN_HOURS = 1;
 const MAX_HOURS = 12;
 
-// Turns the booker's local date and times into exact UTC instants.
-// tzOffset is the browser's Date#getTimezoneOffset() (minutes, UTC minus local).
 function buildSlot({ date, startTime, endTime, tzOffset }) {
   if (!DATE_RE.test(date || "")) return { error: "Choose a valid date." };
   if (!TIME_RE.test(startTime || "") || !TIME_RE.test(endTime || "")) {
@@ -37,13 +35,10 @@ function buildSlot({ date, startTime, endTime, tzOffset }) {
   return { startAt, endAt, hours };
 }
 
-// Two time ranges collide when each starts before the other ends.
-// Back-to-back bookings (one ends exactly when the next starts) are allowed.
 function overlaps(aStart, aEnd, bStart, bEnd) {
   return aStart < bEnd && aEnd > bStart;
 }
 
-// Confirmed bookings whose end time has passed are shown as "Completed".
 function withEffectiveStatus(booking, now = new Date()) {
   const completed = booking.status === "Confirmed" && new Date(booking.endAt) < now;
   return completed ? { ...booking, status: "Completed" } : booking;

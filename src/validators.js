@@ -1,4 +1,3 @@
-// Request validation. Every function returns { error } or { data }.
 
 const CATEGORIES = [
   "Photo Studio",
@@ -11,7 +10,6 @@ const CATEGORIES = [
 const text = (value) => (typeof value === "string" ? value.trim() : "");
 const fail = (error) => ({ error });
 
-// Accepts full http(s) URLs and site-relative paths such as /studios/photo-1.svg
 function isImageUrl(value) {
   if (typeof value !== "string" || value.length > 500) return false;
   if (value.startsWith("/")) return value.length > 1 && !value.startsWith("//") && !/\s/.test(value);
